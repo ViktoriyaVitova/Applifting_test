@@ -1,0 +1,412 @@
+{
+	"info": {
+		"_postman_id": "fc982988-68e8-48cb-a6e8-0108bb903685",
+		"name": "STFUandCLICK",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET  leaderboard",
+			"item": [
+				{
+					"name": "GET leaderboard",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b4a6de53-875e-4668-9845-58fea8a2009b",
+								"exec": [
+									"pm.test(\"GET ledarboard enndpoint - availability of the service - Status code 200 expected\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"GET ledarboard enndpoint - response should have not empty body in Json\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.have.jsonBody(\"error\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{test_env}}/api/v1/leaderboard",
+							"host": [
+								"{{test_env}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"leaderboard"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "POST klik",
+			"item": [
+				{
+					"name": "POST klik - no body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e725dcf7-e7eb-4981-9fd7-d5f46b7269f9",
+								"exec": [
+									"pm.test(\"POST klik - no body was send - Status code 400 is expected\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://klikuj.herokuapp.com/api/v1/klik",
+							"protocol": "https",
+							"host": [
+								"klikuj",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"klik"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST klik - availability",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e725dcf7-e7eb-4981-9fd7-d5f46b7269f9",
+								"exec": [
+									"pm.test(\"POST klik - availability of the servise - Status code 200 is expected\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"POST klik - your_clicks=1 and team_clicks=1 in case of new team creation\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.your_clicks).to.eql(1);\r",
+									"    pm.expect(jsonData.team_clicks).to.eql(1);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "6974ab52-ece1-4ae0-80fb-3a027fa0f0b7",
+								"exec": [
+									"let randomNumber = Math.floor(Math.random() * 10000) + 1;\r",
+									"let num = randomNumber + \"Vik_test_team\"\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"num\", num);\r",
+									"console.log(num)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"session\": \"rd0OdLgF6Kpr\",\n\t\"team\": \"{{num}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://klikuj.herokuapp.com/api/v1/klik",
+							"protocol": "https",
+							"host": [
+								"klikuj",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"klik"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST klik -body -session param is mandatory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e725dcf7-e7eb-4981-9fd7-d5f46b7269f9",
+								"exec": [
+									"pm.test(\"POST klik - session param is mandatory - Status code 400 is expected\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "6974ab52-ece1-4ae0-80fb-3a027fa0f0b7",
+								"exec": [
+									"let randomNumber = Math.floor(Math.random() * 10000) + 1;\r",
+									"let num = randomNumber + \"Vik_test_team\"\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"num\", num);\r",
+									"console.log(num)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\"team\": \"{{num}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://klikuj.herokuapp.com/api/v1/klik",
+							"protocol": "https",
+							"host": [
+								"klikuj",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"klik"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST klik -body-team param is mandatory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e725dcf7-e7eb-4981-9fd7-d5f46b7269f9",
+								"exec": [
+									"pm.test(\"POST klik - team param is mandatory - Status code 400 is expected\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "6974ab52-ece1-4ae0-80fb-3a027fa0f0b7",
+								"exec": [
+									"let randomNumber = Math.floor(Math.random() * 10000) + 1;\r",
+									"let num = randomNumber + \"Vik_test_team\"\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"num\", num);\r",
+									"console.log(num)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"session\": \"rd0OdLgF6Kpr\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://klikuj.herokuapp.com/api/v1/klik",
+							"protocol": "https",
+							"host": [
+								"klikuj",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"klik"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST klik - body - sessionId is 1400chars long",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e725dcf7-e7eb-4981-9fd7-d5f46b7269f9",
+								"exec": [
+									"pm.test(\"POST klik - sessionId is 1400chars long - Status code 200 is expected\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "6974ab52-ece1-4ae0-80fb-3a027fa0f0b7",
+								"exec": [
+									"let randomNumber = Math.floor(Math.random() * 10000) + 1;\r",
+									"let num = randomNumber + \"Vik_test_team\"\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"num\", num);\r",
+									"console.log(num)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"session\": \"84SyD8D1veRUVwvEppFNdx1ZGQ6WMcpDjcj5hpkTWI2zmnJssauikRfuVaVJAEKue3vowV3lhk1yxpo89ymo4vVQ0zzD7VXqXxfgi8ephSXwqrWRuS2eFZwqDpPXx7UV9qfE2M4VmkyeWSKpLCkvJH2kQ3q4SkXZRGxEOExBAzlqyw9vtXemcvBuJQmHlCpjIoUjMTDIdkoUU9eWcfKF3ownOYKItVL3lYi9iSIZNdCNploLr9FWwVDTdn7VAKE0QtjJHkWhYiSe5feYtlIadMsWBVtCqK0HvUr0MFaslVOOJrnWNcT1RjJC0lZRwzRhotxZynICAZP6Bd0oAS4fZezJhH5KuMGvjMyG7I36kJBvI2r84RHHxK3bD3E11adFlCuai8gWROJXuQo9dwAf7IghMv8FCoNwlo5sGItFpO5PlDF40mR6CuODd1teJEdvoFFyQo35EKb7lxaBgKnY70qXNQMPSdkWLZYopwC65kuZ7cGGYZI3LSjmKl5Uk7iX6Lx4FhpcDbD8ixCToS5yXzReBRDcgeSItFu3NetdfZwzmXl6dTzmIvoUgoaEsgxW9zk2rlCCTsMP2coqsbn81uQ48D2paEK7wevAqd43KoBD5c5xyi6PP6G9wMV4xDW6T3SQmRv2JmHrjyA97rSQ7mwBoSoh4c4r4lMip8YZZAfXVkCDTUuS8H24dq0HV8MtEhWH3FxhqgIrb3XItawOZxJiFfh5su0xiTI3a6BxsyNksbLWnKgzoPQ6s1apkFuPkuaLKWuXE99sA6DWqAmU1ozBx226wP3gH3VNrcoJ8IefHecVL7YO11U58W1IAQkdbYmVs4YqGvScfJsv9BInXJPioN8qonjTPOuc2pRAyJwwIYNDs4jsBABslr2CqCXjsXm5QVUiNKyMUPEiGhhGYaHDSCWMF0if4AGg72XEC7VXJcZT1XnDn9K7WXTBHZpomzpjao4HapJAcTJAhDqquDv12oHCNKmdTg160NLXwjXQUYBYNAro2eiKgK9hNrOgCxeKvI5wUUZ8EJjDkgUYEMAJjYOTu2XLENmTUW0Qu0SQkRL9t57YrQvCuM3GrTILYebdGecr0aM9eIWjoaom68BYcAvRefl3L2FYZL0KwgXqODaQgjVN4CEQECGW5utWndmMvuNCwrERWPJDxCjty060XMNF8ckB9RKM6QGR6g4EHzzeVh4lgJqphlnLAGOje1fHxgQLqahLrnzbouUq5rvjP9Br4f8GxVKxGPXWC6FlnXRODaDLz3cbX1KJjNr4Gkxp6dLJrgAGtvY8lGcmsbJ3Ru1X8s0UmQBB2Ppy9RtFFxYqPhbXDatR8Ddijca0aX1pnxHM5gpPC5his9MJS6FpKHzTofzWfrieXTD8OJyaFuqt2DTXs1l9\",\n\t\"team\": \"{{num}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://klikuj.herokuapp.com/api/v1/klik",
+							"protocol": "https",
+							"host": [
+								"klikuj",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"klik"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST klik - body - team is 1420chars long",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e725dcf7-e7eb-4981-9fd7-d5f46b7269f9",
+								"exec": [
+									"pm.test(\"POST klik - team is 1420chars long - Status code 200 is expected\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "6974ab52-ece1-4ae0-80fb-3a027fa0f0b7",
+								"exec": [
+									"let randomNumber = Math.floor(Math.random() * 10000) + 1;\r",
+									"let num = randomNumber + \"Vik_test_team\"\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"num\", num);\r",
+									"console.log(num)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"session\": \"rd0OdLgF6Kpr\",\n\t\"team\": \"{{num}} 84SyD8D1veRUVwvEppFNdx1ZGQ6WMcpDjcj5hpkTWI2zmnJssauikRfuVaVJAEKue3vowV3lhk1yxpo89ymo4vVQ0zzD7VXqXxfgi8ephSXwqrWRuS2eFZwqDpPXx7UV9qfE2M4VmkyeWSKpLCkvJH2kQ3q4SkXZRGxEOExBAzlqyw9vtXemcvBuJQmHlCpjIoUjMTDIdkoUU9eWcfKF3ownOYKItVL3lYi9iSIZNdCNploLr9FWwVDTdn7VAKE0QtjJHkWhYiSe5feYtlIadMsWBVtCqK0HvUr0MFaslVOOJrnWNcT1RjJC0lZRwzRhotxZynICAZP6Bd0oAS4fZezJhH5KuMGvjMyG7I36kJBvI2r84RHHxK3bD3E11adFlCuai8gWROJXuQo9dwAf7IghMv8FCoNwlo5sGItFpO5PlDF40mR6CuODd1teJEdvoFFyQo35EKb7lxaBgKnY70qXNQMPSdkWLZYopwC65kuZ7cGGYZI3LSjmKl5Uk7iX6Lx4FhpcDbD8ixCToS5yXzReBRDcgeSItFu3NetdfZwzmXl6dTzmIvoUgoaEsgxW9zk2rlCCTsMP2coqsbn81uQ48D2paEK7wevAqd43KoBD5c5xyi6PP6G9wMV4xDW6T3SQmRv2JmHrjyA97rSQ7mwBoSoh4c4r4lMip8YZZAfXVkCDTUuS8H24dq0HV8MtEhWH3FxhqgIrb3XItawOZxJiFfh5su0xiTI3a6BxsyNksbLWnKgzoPQ6s1apkFuPkuaLKWuXE99sA6DWqAmU1ozBx226wP3gH3VNrcoJ8IefHecVL7YO11U58W1IAQkdbYmVs4YqGvScfJsv9BInXJPioN8qonjTPOuc2pRAyJwwIYNDs4jsBABslr2CqCXjsXm5QVUiNKyMUPEiGhhGYaHDSCWMF0if4AGg72XEC7VXJcZT1XnDn9K7WXTBHZpomzpjao4HapJAcTJAhDqquDv12oHCNKmdTg160NLXwjXQUYBYNAro2eiKgK9hNrOgCxeKvI5wUUZ8EJjDkgUYEMAJjYOTu2XLENmTUW0Qu0SQkRL9t57YrQvCuM3GrTILYebdGecr0aM9eIWjoaom68BYcAvRefl3L2FYZL0KwgXqODaQgjVN4CEQECGW5utWndmMvuNCwrERWPJDxCjty060XMNF8ckB9RKM6QGR6g4EHzzeVh4lgJqphlnLAGOje1fHxgQLqahLrnzbouUq5rvjP9Br4f8GxVKxGPXWC6FlnXRODaDLz3cbX1KJjNr4Gkxp6dLJrgAGtvY8lGcmsbJ3Ru1X8s0UmQBB2Ppy9RtFFxYqPhbXDatR8Ddijca0aX1pnxHM5gpPC5his9MJS6FpKHzTofzWfrieXTD8OJyaFuqt2DTXs1l9\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://klikuj.herokuapp.com/api/v1/klik",
+							"protocol": "https",
+							"host": [
+								"klikuj",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"klik"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
